@@ -89,4 +89,8 @@ wrangler.jsonc         # Cloudflare Workers config (name, KV binding, assets, im
 
 ## Status
 
-This boilerplate was scaffolded with the official `create-vinext-app` generator, targeting Cloudflare Workers, and verified end-to-end: `npm run dev` serves the app locally, `npm run build && npm run deploy` deploys a working Worker (homepage + `/api/hello` both return correct responses), and the test deployment was torn down afterward with `npx wrangler delete`. Vinext itself is experimental — expect gaps versus a full Next.js production app.
+This boilerplate was scaffolded with the official `create-vinext-app` generator, targeting Cloudflare Workers, and verified end-to-end: `npm run dev` serves the app locally, and `npm run build && npm run deploy` deploys a working Worker (homepage + `/api/hello` both return correct responses). Vinext itself is experimental — expect gaps versus a full Next.js production app.
+
+## Projects built from this boilerplate
+
+- [vinext-url-shortener](https://github.com/Co-Ventech/vinext-url-shortener) — a URL shortener demo (Cloudflare KV-backed) built on top of this starter
