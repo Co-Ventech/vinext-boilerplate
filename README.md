@@ -22,48 +22,71 @@ Vinext is **not** a new framework — it's a Vite plugin that re-implements the 
 
 ## Getting Started
 
-Install dependencies:
+Clone and install dependencies:
 
 ```bash
-pnpm install
+git clone https://github.com/Co-Ventech/vinext-boilerplate.git
+cd vinext-boilerplate
+npm install
 ```
 
-Run the dev server:
+Run the dev server (http://localhost:3000):
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 Build for production:
 
 ```bash
-pnpm build
+npm run build
 ```
 
-Run the production build locally:
+Run the built Worker locally (via Wrangler):
 
 ```bash
-pnpm start
+npm run start
 ```
 
-Deploy to Cloudflare Workers:
+## Deploying to Cloudflare Workers
 
-```bash
-npx @vinext/cloudflare deploy
-```
+1. Authenticate with Cloudflare (skip if already logged in):
 
-You'll need to be authenticated with Cloudflare first (`wrangler login`, or set `CLOUDFLARE_API_TOKEN`).
+   ```bash
+   npx wrangler login
+   ```
+
+2. Create the KV namespace this app needs (`wrangler.jsonc` ships with a placeholder ID that must be replaced):
+
+   ```bash
+   npx wrangler kv namespace create VINEXT_KV_CACHE
+   ```
+
+   Copy the returned `id` into the `kv_namespaces` entry in `wrangler.jsonc`, replacing `<your-kv-namespace-id>`.
+
+3. Build and deploy:
+
+   ```bash
+   npm run build
+   npm run deploy
+   ```
+
+   This deploys to `https://<worker-name>.<your-subdomain>.workers.dev`, where `<worker-name>` is the `name` field in `wrangler.jsonc`.
+
+If you don't do step 2, `npm run deploy` will fail because the KV binding has no real namespace ID.
 
 ## Project Structure
 
 ```
-app/               # App Router routes (standard Next.js conventions)
-public/            # Static assets
-vite.config.ts     # Vite + vinext + @cloudflare/vite-plugin config
-wrangler.jsonc     # Cloudflare Workers config
-next.config.js     # Optional, standard Next.js config conventions
+app/                   # App Router routes (standard Next.js conventions)
+app/api/hello/route.ts # Example Route Handler
+app/layout.tsx         # Root layout
+app/page.tsx           # Home page
+next.config.ts         # Standard Next.js config conventions (optional)
+vite.config.ts         # Vite + vinext + @cloudflare/vite-plugin config
+wrangler.jsonc         # Cloudflare Workers config (name, KV binding, assets, images)
 ```
 
 ## Status
 
-This boilerplate was scaffolded with the official `create-vinext-app` generator, targeting Cloudflare Workers. Vinext itself is experimental — expect gaps versus a full Next.js production app.
+This boilerplate was scaffolded with the official `create-vinext-app` generator, targeting Cloudflare Workers, and verified end-to-end: `npm run dev` serves the app locally, `npm run build && npm run deploy` deploys a working Worker (homepage + `/api/hello` both return correct responses), and the test deployment was torn down afterward with `npx wrangler delete`. Vinext itself is experimental — expect gaps versus a full Next.js production app.

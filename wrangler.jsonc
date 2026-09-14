@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "vinext-boilerplate-scaffold",
+  "name": "vinext-boilerplate",
   "compatibility_date": "2026-09-04",
   "compatibility_flags": [
     "nodejs_compat"
@@ -20,7 +20,7 @@
   "kv_namespaces": [
     {
       "binding": "VINEXT_KV_CACHE",
-      "id": "<your-kv-namespace-id>"
+      "id": "31fba875ac7e4241a4ee6ef6ab184bbf"
     }
   ]
 }
